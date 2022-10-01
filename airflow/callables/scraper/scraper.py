@@ -20,7 +20,7 @@ class Scraper:
     def __init__(self) -> None:
         self.base_url = "https://crinacle.com/rankings/"
 
-    def convert_to_model(self, device_data: list[dict], device_type: str) -> list:
+    def convert_to_model(self, device_data: list, device_type: str) -> list:
         """Converts list of dictionary to their respective list of model type
 
         Args:
@@ -37,7 +37,7 @@ class Scraper:
 
         return converted_data
 
-    def scrape(self, device_type: str) -> list[dict]:
+    def scrape(self, device_type: str) -> list:
         """
         Scrapes Crinacle's databases containing technical information about Headphones and IEMs.
 
@@ -74,14 +74,14 @@ class Scraper:
         device_data = self.convert_to_model(device_data=device_data, device_type=device_type)
         return device_data
 
-    def convert_to_csv(self, device_data: list[dict], device_type: str) -> None:
+    def convert_to_csv(self, device_data: list, device_type: str) -> None:
         """Converts a list of dictionaries to a csv file
 
         Args:
             device_data (list[dict]): List of dictionaries containing each device
             device_type (str): String specifiying the type of device: headphones or iems
         """
-        with open(f"{device_type}.csv", "w") as csvfile:
+        with open(f"/tmp/{device_type}.csv", "w") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=device_data[0].keys())
             writer.writeheader()
             writer.writerows(device_data)

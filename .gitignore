@@ -1,3 +1,6 @@
+# Airflow
+**/logs/*
+
 # Local .terraform directories
 **/.terraform/*
 *.hcl

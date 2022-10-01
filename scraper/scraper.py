@@ -1,7 +1,9 @@
+import csv
 import pprint
 import logging
 import requests
 from bs4 import BeautifulSoup
+from dataclasses import asdict
 from models import Headphone, InEarMonitor
 
 logging.basicConfig(filename="logs.log", level=logging.INFO)
@@ -72,9 +74,22 @@ class Scraper:
         device_data = self.convert_to_model(device_data=device_data, device_type=device_type)
         return device_data
 
+    def convert_to_csv(self, device_data: list[dict], device_type: str) -> None:
+        """Converts a list of dictionaries to a csv file
+
+        Args:
+            device_data (list[dict]): List of dictionaries containing each device
+            device_type (str): String specifiying the type of device: headphones or iems
+        """
+        with open(f"{device_type}.csv", "w") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=device_data[0].keys())
+            writer.writeheader()
+            writer.writerows(device_data)
+
 
 if __name__ == "__main__":
     scraper = Scraper()
-    headphones = scraper.scrape(device_type="iems")
-    pprint.pprint(headphones)
-    # scraper.scrape(device_type="iems")
+    headphones = scraper.scrape(device_type="headphones")
+    headphones = [asdict(headphone) for headphone in headphones]
+
+    scraper.convert_to_csv(headphones)

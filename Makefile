@@ -1,11 +1,13 @@
 help:
 	@echo "  build      Builds the docker images for the docker-compose setup"
-	@echo "  clean      Stops and removes all docker containers"
-	@echo "  shell      Opens a Bash shell"
-	@echo "  redis-cli  Opens a Redis CLI"
-	@echo "  run        Run a airflow command"
-	@echo "  stop       Stops the docker containers"
-	@echo "  up         Runs the whole stack, served under http://localhost:8000/"
+	@echo "  clean       Stops and removes all docker containers"
+	@echo "  shell       Opens a Bash shell"
+	@echo "  redis-cli   Opens a Redis CLI"
+	@echo "  run         Run a airflow command"
+	@echo "  stop        Stops the docker containers"
+	@echo "  up          Runs the whole stack, served under http://localhost:8000/"
+	@echo "  init        Initializes airflow services"
+	@echo "  base-build  Builds the base docker image for airflow"
 
 build:
 	docker-compose build
@@ -30,3 +32,9 @@ stop:
 
 up:
 	docker-compose up
+
+init:
+	docker-compose up airflow-init
+
+base-build:
+	docker build -t airflow-extended:latest -f Dockerfile .

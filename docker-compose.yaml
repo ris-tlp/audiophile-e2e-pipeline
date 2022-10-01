@@ -46,7 +46,7 @@ x-airflow-common:
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.4.1}
   build: . # this is optional
-  image: ${AIRFLOW_IMAGE_NAME:-extended_airflow:latest}
+  image: ${AIRFLOW_IMAGE_NAME:-airflow-extended:latest}
   # build: .
   environment:
     &airflow-common-env
@@ -62,10 +62,10 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
-    - ./callables:/opt/airflow/callables
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/callables:/opt/airflow/callables
     - $HOME/.aws/credentials:/home/app/.aws/credentials:ro
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
@@ -242,7 +242,8 @@ services:
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "0:0"
     volumes:
-      - .:/sources
+      - ./airflow/:/sources
+
 
   airflow-cli:
     <<: *airflow-common

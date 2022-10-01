@@ -92,4 +92,8 @@ if __name__ == "__main__":
     headphones = scraper.scrape(device_type="headphones")
     headphones = [asdict(headphone) for headphone in headphones]
 
-    scraper.convert_to_csv(headphones)
+    iems = scraper.scrape(device_type="iems")
+    iems = [asdict(iem) for iem in iems]
+
+    scraper.convert_to_csv(device_data=headphones, device_type="headphones")
+    scraper.convert_to_csv(device_data=iems, device_type="iems")

@@ -1,5 +1,3 @@
-.PHONY: build clean migrate redis-cli run secret shell stop up
-
 help:
 	@echo "  build      Builds the docker images for the docker-compose setup"
 	@echo "  clean      Stops and removes all docker containers"

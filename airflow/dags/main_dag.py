@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from nis import cat
 from os import remove
 from airflow import DAG
@@ -24,4 +25,11 @@ with DAG(
         dag=dag,
     )
 
-scrape_audiophile_data
+    upload_csv_to_s3 = BashOperator(
+        task_id="upload_csv_to_s3",
+        bash_command="python /opt/airflow/callables/upload_to_s3.py",
+        dag=dag,
+    )
+
+
+scrape_audiophile_data >> upload_csv_to_s3

@@ -66,8 +66,7 @@ x-airflow-common:
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/callables:/opt/airflow/callables
-    - $HOME/.aws/credentials:/home/app/.aws/credentials:ro
-  user: "${AIRFLOW_UID:-50000}:0"
+    - $HOME/.aws/credentials:/home/airflow/.aws/credentials:ro
   depends_on:
     &airflow-common-depends-on
     redis:

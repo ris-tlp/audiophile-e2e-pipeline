@@ -1,0 +1,29 @@
+name: Testing the Scraper
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    # Setup .env file for secrets access
+    - name: Install requirements
+      run: |
+        pip install pipenv
+        pipenv requirements > requirements.txt
+        pip install -r requirements.txt
+    - name: Run tests
+      run: |
+        pytest

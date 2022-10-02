@@ -7,6 +7,8 @@ name = "pypi"
 requests = "*"
 beautifulsoup4 = "*"
 mypy = "*"
+pyyaml = "*"
+boto3 = "*"
 
 [dev-packages]
 black = "*"

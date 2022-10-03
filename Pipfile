@@ -10,6 +10,7 @@ mypy = "*"
 pyyaml = "*"
 boto3 = "*"
 pytest = "*"
+pydantic = "*"
 
 [dev-packages]
 black = "*"

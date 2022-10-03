@@ -1,3 +1,6 @@
+from curses.ascii import isalnum, isalpha
+import re
+import pandas as pd
 from typing import List
 from csv import DictReader
 from pydantic import ValidationError
@@ -22,22 +25,51 @@ def read_csv_as_dicts(filename: str) -> List[dict]:
         print(f"{filename} - {exception}")
 
 
+def sanitize_data(data: List[dict]) -> List[dict]:
+    """
+    Performs rudimentary sanitizations on bronze data
+
+    Args:
+        data (List[dict]): list of IEMs/Headphones
+
+    Returns:
+        List[dict]: Sanitized data
+    """
+    df = pd.DataFrame(data)
+
+    for index, row in df.iterrows():
+        # Replacing discontinued devices with no price with -1
+        if re.search("Discont", str(row["price"])):
+            row["price"] = -1
+
+        # Some prices have models embedded to them, this replaces with only price
+        # Ex: 3000(HE1000) gives 3000
+        if re.search("[a-zA-Z]", str(row["price"])):
+            row["price"] = list(filter(None, re.split(r"(\d+)", str(row["price"]))))[0]
+
+            # Some are still text even after splits and earlier cleanses
+            if re.search("[a-zA-Z]", str(row["price"])):
+                row["price"] = -1
+
+
 if __name__ == "__main__":
     headphones_file = "/tmp/headphones-bronze.csv"
     iems_file = "/tmp/iems-bronze.csv"
 
-    # Validates all headphones/iems in a list based on the validators
-    # defined in the PyDantic models
     iems_list = read_csv_as_dicts(iems_file)
-
-    try:
-        iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list]
-    except ValidationError as exception:
-        print(f"IEM - {exception}")
-
     headphones_list = read_csv_as_dicts(headphones_file)
 
-    try:
-        headphones_list = [Headphone.parse_obj(headphone) for headphone in headphones_list]
-    except ValidationError as exception:
-        print(f"Headphone - {exception}")
+    sanitize_data(iems_list)
+    # sanitize_data(headphones_list)
+
+    # Validates all headphones/iems in a list based on the validators
+    # defined in the respective PyDantic models
+    # try:
+    #     iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list]
+    # except ValidationError as exception:
+    #     print(f"IEM - {exception}")
+
+    # try:
+    #     headphones_list = [Headphone.parse_obj(headphone) for headphone in headphones_list]
+    # except ValidationError as exception:
+    #     print(f"Headphone - {exception}")

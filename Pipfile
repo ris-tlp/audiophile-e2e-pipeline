@@ -11,6 +11,7 @@ pyyaml = "*"
 boto3 = "*"
 pytest = "*"
 pydantic = "*"
+pandas = "*"
 
 [dev-packages]
 black = "*"

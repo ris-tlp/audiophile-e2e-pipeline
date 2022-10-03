@@ -22,6 +22,7 @@ class InEarMonitor(BaseModel):
     technical_grade: str
     price: int
 
+    # Ensure all fields with a convention of letter grades does not exceed two characters
     _ensure_rank_max_2_chars = validator("rank", allow_reuse=True)(grade_atmost_2_chars)
     _ensure_tonegrade_max_2_chars = validator("tone_grade", allow_reuse=True)(grade_atmost_2_chars)
     _ensure_technicalgrade_max_2_chars = validator("technical_grade", allow_reuse=True)(

@@ -65,7 +65,7 @@ x-airflow-common:
     - ./airflow/dags:/opt/airflow/dags
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
-    - ./airflow/callables:/opt/airflow/callables
+    - ./airflow/tasks:/opt/airflow/tasks
     - $HOME/.aws/credentials:/home/airflow/.aws/credentials:ro
   depends_on:
     &airflow-common-depends-on

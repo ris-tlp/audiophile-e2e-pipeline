@@ -1,3 +1,4 @@
+import sys
 import yaml
 import boto3
 import pathlib
@@ -8,9 +9,12 @@ script_path = pathlib.Path(__file__).parent.resolve()
 with open(f"{script_path}/configuration.yaml", "r") as yamlfile:
     cfg = yaml.safe_load(yamlfile)
 
+# Get CLI arg for data phase upload, ie, bronze, silver, gold
+data_level = sys.argv[1]
+files = [f"headphones-{data_level}.csv", f"iems-{data_level}.csv"]
+
 # Set config variables
 AWS_BUCKET = cfg["aws"]["bucket"]
-files = ["headphones.csv", "iems.csv"]
 
 
 def connect_s3():

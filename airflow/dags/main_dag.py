@@ -1,6 +1,6 @@
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
 from airflow.utils.dates import days_ago
+from airflow.operators.bash_operator import BashOperator
 
 
 schedule_interval = "@daily"
@@ -18,15 +18,15 @@ with DAG(
 
     scrape_audiophile_data = BashOperator(
         task_id="scrape_audiophile_data",
-        bash_command="python /opt/airflow/callables/scraper/scraper.py",
+        bash_command="python /opt/airflow/tasks/scraper/scraper.py",
         dag=dag,
     )
 
-    upload_csv_to_s3 = BashOperator(
+    upload_bronze_csv_s3 = BashOperator(
         task_id="upload_csv_to_s3",
-        bash_command="python /opt/airflow/callables/upload_to_s3.py",
+        bash_command="python /opt/airflow/tasks/upload_to_s3.py bronze",
         dag=dag,
     )
 
 
-scrape_audiophile_data >> upload_csv_to_s3
+scrape_audiophile_data >> upload_bronze_csv_s3

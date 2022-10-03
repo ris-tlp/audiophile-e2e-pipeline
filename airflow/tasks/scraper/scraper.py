@@ -111,7 +111,7 @@ class Scraper:
             device_data (list[dict]): List of dictionaries containing each device
             device_type (str): String specifiying the type of device: headphones or iems
         """
-        with open(f"/tmp/{device_type}.csv", "w") as csvfile:
+        with open(f"/tmp/{device_type}-bronze.csv", "w") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=device_data[0].keys())
             writer.writeheader()
             writer.writerows(device_data)

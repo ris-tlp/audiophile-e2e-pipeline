@@ -42,3 +42,7 @@ base-build:
 
 test:
 	pytest
+
+generate-config:
+	chmod +x generate_config.sh
+	./generate_config.sh

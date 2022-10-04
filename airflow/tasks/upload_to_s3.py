@@ -39,5 +39,5 @@ def upload_csv_s3():
         s3_conn.meta.client.upload_file(Filename=f"/tmp/{file}", Bucket=AWS_BUCKET, Key=file)
 
 
-# if __name__ == "__main__":
-#     upload_csv_s3()
+if __name__ == "__main__":
+    upload_csv_s3()

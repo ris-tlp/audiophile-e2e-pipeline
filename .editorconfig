@@ -12,6 +12,7 @@ charset = utf-8
 [*.{py}]
 indent_style = space
 indent_size = 4
+profile = black
 
 # 2 space indentation
 [*.{js,json,y{a,}ml,html,cwl}]

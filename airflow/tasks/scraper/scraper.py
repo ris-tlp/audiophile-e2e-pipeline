@@ -1,11 +1,13 @@
 import re
 import csv
 import pprint
+import pathlib
 import logging
 import requests
 from bs4 import BeautifulSoup
-from dataclasses import asdict
-from models import Headphone, InEarMonitor
+
+script_path = pathlib.Path(__file__).parent.resolve()
+print(script_path)
 
 logging.basicConfig(filename="logs.log", level=logging.INFO)
 # truncating log file before new run
@@ -20,23 +22,6 @@ class Scraper:
 
     def __init__(self) -> None:
         self.base_url = "https://crinacle.com/rankings/"
-
-    # def convert_to_model(self, device_data: list, device_type: str) -> list:
-    #     """Converts list of dictionary to their respective list of model type
-
-    #     Args:
-    #         device_data (list[dict]): List of dictionaries containing each device
-    #         device_type (str): String specifiying the type of device: headphones or iems
-
-    #     Returns:
-    #         list: List containing the dictionaries converted to the specific model type
-    #     """
-    #     if device_type == "headphones":
-    #         converted_data = [Headphone(device) for device in device_data]
-    #     else:
-    #         converted_data = [InEarMonitor(device) for device in device_data]
-
-    #     return converted_data
 
     def clean_headers(self, headers: list) -> list:
         """
@@ -104,14 +89,16 @@ class Scraper:
         # device_data = self.convert_to_model(device_data=device_data, device_type=device_type)
         return device_data
 
-    def convert_to_csv(self, device_data: list, device_type: str) -> None:
-        """Converts a list of dictionaries to a csv file
+    def convert_to_csv(self, device_data: list, device_type: str, data_level: str) -> None:
+        """
+        Converts a list of dictionaries to a csv file
 
         Args:
             device_data (list[dict]): List of dictionaries containing each device
             device_type (str): String specifiying the type of device: headphones or iems
+            data_level (str): Signifies the level of data, ie, gold, bronze, silver
         """
-        with open(f"/tmp/{device_type}-bronze.csv", "w") as csvfile:
+        with open(f"/tmp/{device_type}-{data_level}.csv", "w") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=device_data[0].keys())
             writer.writeheader()
             writer.writerows(device_data)
@@ -122,5 +109,5 @@ if __name__ == "__main__":
     headphones = scraper.scrape(device_type="headphones")
     iems = scraper.scrape(device_type="iems")
 
-    scraper.convert_to_csv(device_data=headphones, device_type="headphones")
-    scraper.convert_to_csv(device_data=iems, device_type="iems")
+    scraper.convert_to_csv(device_data=headphones, device_type="headphones", data_level="bronze")
+    scraper.convert_to_csv(device_data=iems, device_type="iems", data_level="bronze")

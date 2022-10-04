@@ -3,6 +3,7 @@ import pandas as pd
 from typing import List
 from csv import DictReader
 from pydantic import ValidationError
+from utilities import convert_to_csv
 from scraper.models import InEarMonitor, Headphone
 
 
@@ -71,17 +72,24 @@ if __name__ == "__main__":
     headphones_list = read_csv_as_dicts(headphones_file)
 
     # Sanitize both CSV files with similar parameters
-    iems_list = sanitize_data(iems_list)
-    headphones_list = sanitize_data(headphones_list)
+    iems_list_sanitized = sanitize_data(iems_list)
+    headphones_list_sanitized = sanitize_data(headphones_list)
 
     # Validates all headphones/iems in a list based on the validators
     # defined in the respective PyDantic models
     try:
-        iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list]
+        iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list_sanitized]
     except ValidationError as exception:
         print(f"IEM - {exception}")
 
     try:
-        headphones_list = [Headphone.parse_obj(headphone) for headphone in headphones_list]
+        headphones_list = [
+            Headphone.parse_obj(headphone) for headphone in headphones_list_sanitized
+        ]
     except ValidationError as exception:
         print(f"Headphone - {exception}")
+
+    convert_to_csv(device_data=iems_list_sanitized, device_type="iems", data_level="silver")
+    convert_to_csv(
+        device_data=headphones_list_sanitized, device_type="headphones", data_level="silver"
+    )

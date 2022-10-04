@@ -22,7 +22,7 @@ with DAG(
     )
 
     upload_bronze_csv_s3 = BashOperator(
-        task_id="upload_csv_to_s3",
+        task_id="upload_bronze_csv_to_s3",
         bash_command="python /opt/airflow/tasks/upload_to_s3.py bronze",
     )
 
@@ -31,4 +31,13 @@ with DAG(
         bash_command="python /opt/airflow/tasks/validate_sanitize_bronze.py",
     )
 
-scrape_audiophile_data >> upload_bronze_csv_s3 >> validate_sanitize_bronze_data
+    upload_silver_csv_s3 = BashOperator(
+        task_id="upload_silver_csv_to_s3",
+        bash_command="python /opt/airflow/tasks/upload_to_s3.py silver",
+    )
+(
+    scrape_audiophile_data
+    >> upload_bronze_csv_s3
+    >> validate_sanitize_bronze_data
+    >> upload_silver_csv_s3
+)

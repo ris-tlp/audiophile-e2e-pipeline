@@ -19,14 +19,16 @@ with DAG(
     scrape_audiophile_data = BashOperator(
         task_id="scrape_audiophile_data",
         bash_command="python /opt/airflow/tasks/scraper/scraper.py",
-        dag=dag,
     )
 
     upload_bronze_csv_s3 = BashOperator(
         task_id="upload_csv_to_s3",
         bash_command="python /opt/airflow/tasks/upload_to_s3.py bronze",
-        dag=dag,
     )
 
+    validate_sanitize_bronze_data = BashOperator(
+        task_id="validate_sanitize_bronze_data",
+        bash_command="python /opt/airflow/tasks/validate_sanitize_bronze.py",
+    )
 
-scrape_audiophile_data >> upload_bronze_csv_s3
+scrape_audiophile_data >> upload_bronze_csv_s3 >> validate_sanitize_bronze_data

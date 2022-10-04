@@ -1,4 +1,4 @@
-FROM apache/airflow:2.4.1
+FROM apache/airflow:latest-python3.9
 
 USER root
 
@@ -6,6 +6,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \
     && apt-get autoremove -yqq --purge \
+    && apt-get -y install libpq-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

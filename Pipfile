@@ -12,6 +12,8 @@ boto3 = "*"
 pytest = "*"
 pydantic = "*"
 pandas = "*"
+numpy = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"

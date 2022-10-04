@@ -1,5 +1,3 @@
-from curses.ascii import isalnum, isalpha
-import pprint
 import re
 import pandas as pd
 from typing import List

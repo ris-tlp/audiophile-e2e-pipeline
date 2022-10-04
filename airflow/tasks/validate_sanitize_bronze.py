@@ -37,6 +37,18 @@ def sanitize_data(data: List[dict]) -> List[dict]:
     """
     df = pd.DataFrame(data)
 
+    columns_to_drop = [
+        "comments",
+        "based_on",
+        "note_weight",
+        "pricesort",
+        "techsort",
+        "tonesort",
+        "ranksort"
+    ]
+
+    df = df.drop(columns_to_drop, axis=1)
+
     # Some signatures have quotes around them, unneeded
     df["signature"] = df["signature"].str.replace('"', "")
 

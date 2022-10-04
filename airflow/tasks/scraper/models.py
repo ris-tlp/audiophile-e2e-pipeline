@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, validator
 
 
 def grade_atmost_2_chars(rank: str) -> bool:
@@ -10,7 +10,7 @@ def grade_atmost_2_chars(rank: str) -> bool:
 
 class InEarMonitor(BaseModel):
     """
-    Pydantic model containing attributes for InEarMonitors.
+    Pydantic model containing validators for the schema of InEarMonitors.
     """
 
     rank: str
@@ -18,9 +18,9 @@ class InEarMonitor(BaseModel):
     signature: str
     tone_grade: str
     driver_type: str
-    value_rating: str
     technical_grade: str
-    price: int
+    price: int = Field(-1, ge=-1)  # ensure price does not go below -1
+    value_rating: int = Field(-1, ge=-1, le=3)  # ensure rating is from [-1, 3] inclusive
 
     # Ensure all fields with a convention of letter grades does not exceed two characters
     _ensure_rank_max_2_chars = validator("rank", allow_reuse=True)(grade_atmost_2_chars)
@@ -29,23 +29,22 @@ class InEarMonitor(BaseModel):
         grade_atmost_2_chars
     )
 
-    @validator("model")
-    def model_must_contain_space(cls, model):
+    @validator("signature")
+    def ensure_signature_has_no_quotes(cls, signature: str):
         """
-        Model containing spaces signify company name at the start
+        Ensure that any signatures after sanitzation do not have quotes
         """
-        print(model)
-        if " " not in model:
-            raise ValueError("Model must contain a space")
-        return model.title()
+        if '"' in signature:
+            raise ValueError("Signature must not contain quotes")
+        return signature.title()
 
 
 class Headphone(InEarMonitor):
     """
-    Pydantic model containing attributes for Headphones.
+    Pydantic model containing validators for Headphones.
 
     Args:
-        InEarMonitor (InEarMonitor): subclasses the InEarMonitor class
+        InEarMonitor (InEarMonitor): subclasses the InEarMonitor class, including all validators
     """
 
     fit_cup: str

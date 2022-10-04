@@ -1,4 +1,5 @@
 from curses.ascii import isalnum, isalpha
+import pprint
 import re
 import pandas as pd
 from typing import List
@@ -37,9 +38,16 @@ def sanitize_data(data: List[dict]) -> List[dict]:
     """
     df = pd.DataFrame(data)
 
+    # Some signatures have quotes around them, unneeded
+    df["signature"] = df["signature"].str.replace('"', "")
+
     for index, row in df.iterrows():
         # Replacing discontinued devices with no price with -1
         if re.search("Discont", str(row["price"])):
+            row["price"] = -1
+
+        # Replacing ? device prices with -1
+        if re.search("\\?", str(row["price"])):
             row["price"] = -1
 
         # Some prices have models embedded to them, this replaces with only price
@@ -51,6 +59,11 @@ def sanitize_data(data: List[dict]) -> List[dict]:
             if re.search("[a-zA-Z]", str(row["price"])):
                 row["price"] = -1
 
+        # Replace star text rating with number. If no stars, replace with -1
+        row["value_rating"] = len(row["value_rating"]) if row["value_rating"] else -1
+
+    return df.to_dict("records")
+
 
 if __name__ == "__main__":
     headphones_file = "/tmp/headphones-bronze.csv"
@@ -59,17 +72,18 @@ if __name__ == "__main__":
     iems_list = read_csv_as_dicts(iems_file)
     headphones_list = read_csv_as_dicts(headphones_file)
 
-    sanitize_data(iems_list)
-    # sanitize_data(headphones_list)
+    # Sanitize both CSV files with similar parameters
+    iems_list = sanitize_data(iems_list)
+    headphones_list = sanitize_data(headphones_list)
 
     # Validates all headphones/iems in a list based on the validators
     # defined in the respective PyDantic models
-    # try:
-    #     iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list]
-    # except ValidationError as exception:
-    #     print(f"IEM - {exception}")
+    try:
+        iems_list = [InEarMonitor.parse_obj(iem) for iem in iems_list]
+    except ValidationError as exception:
+        print(f"IEM - {exception}")
 
-    # try:
-    #     headphones_list = [Headphone.parse_obj(headphone) for headphone in headphones_list]
-    # except ValidationError as exception:
-    #     print(f"Headphone - {exception}")
+    try:
+        headphones_list = [Headphone.parse_obj(headphone) for headphone in headphones_list]
+    except ValidationError as exception:
+        print(f"Headphone - {exception}")

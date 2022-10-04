@@ -9,6 +9,7 @@ help:
 	@echo "  init        Initializes airflow services"
 	@echo "  base-build  Builds the base docker image for airflow"
 	@echo "  test  		 UI tests for scraper"
+	@echo "  config      Generate a configuration using terraform outputs"
 
 build:
 	docker-compose build
@@ -43,6 +44,6 @@ base-build:
 test:
 	pytest
 
-generate-config:
+config:
 	chmod +x generate_config.sh
 	./generate_config.sh

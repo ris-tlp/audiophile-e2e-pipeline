@@ -1,20 +1,19 @@
 import sys
-import yaml
 import boto3
 import pathlib
+from dotenv import dotenv_values
 from botocore.exceptions import ClientError, NoCredentialsError
 
 # Load config
 script_path = pathlib.Path(__file__).parent.resolve()
-with open(f"{script_path}/configuration.yaml", "r") as yamlfile:
-    cfg = yaml.safe_load(yamlfile)
+config = dotenv_values(f"{script_path}/configuration.env")
 
 # Get CLI arg for data phase upload, ie, bronze, silver, gold
 data_level = sys.argv[1]
 files = [f"headphones-{data_level}.csv", f"iems-{data_level}.csv"]
 
 # Set config variables
-AWS_BUCKET = cfg["aws"]["bucket"]
+AWS_BUCKET = config["bucket_name"]
 
 
 def connect_s3():
@@ -40,5 +39,5 @@ def upload_csv_s3():
         s3_conn.meta.client.upload_file(Filename=f"/tmp/{file}", Bucket=AWS_BUCKET, Key=file)
 
 
-if __name__ == "__main__":
-    upload_csv_s3()
+# if __name__ == "__main__":
+#     upload_csv_s3()

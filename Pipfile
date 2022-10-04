@@ -14,6 +14,7 @@ pydantic = "*"
 pandas = "*"
 numpy = "*"
 psycopg2 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 black = "*"

@@ -7,7 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 
 script_path = pathlib.Path(__file__).parent.resolve()
-print(script_path)
 
 logging.basicConfig(filename="logs.log", level=logging.INFO)
 # truncating log file before new run

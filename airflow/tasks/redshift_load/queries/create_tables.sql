@@ -1,24 +1,22 @@
-CREATE TABLE IF NOT EXISTS Headphones (
-    id int PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Headphone (
     rank_grade varchar(2) NOT NULL,
-    model varchar(50) NOT NULL,
     value_rating int NOT NULL,
+    model varchar(max) NOT NULL PRIMARY KEY,
     price int NOT NULL,
-    audio_signature varchar(50) NOT NULL,
+    audio_signature varchar(max) NOT NULL,
     tone_grade varchar(2) NOT NULL,
     technical_grade varchar(2) NOT NULL,
-    driver_type varchar(25) NOT NULL,
-    fit_cup varchar(25) NOT NULL
+    driver_type varchar(max) NOT NULL,
+    fit_cup varchar(max) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS InEarMonitor (
-    id int PRIMARY KEY,
     rank_grade varchar(2) NOT NULL,
-    model varchar(50) NOT NULL,
     value_rating int NOT NULL,
+    model varchar(max) NOT NULL PRIMARY KEY,
     price int NOT NULL,
-    audio_signature varchar(50) NOT NULL,
+    audio_signature varchar(max) NOT NULL,
     tone_grade varchar(2) NOT NULL,
     technical_grade varchar(2) NOT NULL,
-    driver_type varchar(25) NOT NULL
+    driver_type varchar(max) NOT NULL
 );

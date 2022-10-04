@@ -1,4 +1,5 @@
 import pathlib
+from tempfile import tempdir
 import psycopg2
 from psycopg2 import sql
 from dotenv import dotenv_values
@@ -44,9 +45,19 @@ if __name__ == "__main__":
     conn = create_conn()
     cursor = conn.cursor()
 
-    # Creating tables
+    # Creating tables if not already created
     create_tables_query = prepare_query("create_tables")
 
+    #
+    temp_load_query = prepare_query("load_csv_temp")
+    temp_load_query = temp_load_query.format(
+        s3_iems_file=f"https://{config['bucket_name']}.s3.amazonaws.com/iems-silver.csv",
+        s3_headphones_file=f"https://{config['bucket_name']}.s3.amazonaws.com/headphones-silver.csv",
+        aws_access_id=config["aws_access_key_id"],
+        aws_secret_key=config["aws_secret_access_key"]
+    )
     cursor.execute(create_tables_query)
-    conn.commit()
 
+    print(temp_load_query)
+    cursor.execute(temp_load_query)
+    conn.commit()

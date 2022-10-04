@@ -18,5 +18,5 @@ CREATE TABLE IF NOT EXISTS InEarMonitor (
     audio_signature varchar(max) NOT NULL,
     tone_grade varchar(2) NOT NULL,
     technical_grade varchar(2) NOT NULL,
-    driver_type varchar(max) NOT NULL
+    driver_type varchar(25) NOT NULL
 );

@@ -48,16 +48,19 @@ if __name__ == "__main__":
     # Creating tables if not already created
     create_tables_query = prepare_query("create_tables")
 
-    #
-    temp_load_query = prepare_query("load_csv_temp")
-    temp_load_query = temp_load_query.format(
-        s3_iems_file=f"https://{config['bucket_name']}.s3.amazonaws.com/iems-silver.csv",
-        s3_headphones_file=f"https://{config['bucket_name']}.s3.amazonaws.com/headphones-silver.csv",
+    # Load from S3 csv to staging tables
+    load_csv_temp_query = prepare_query("load_csv_temp").format(
         aws_access_id=config["aws_access_key_id"],
-        aws_secret_key=config["aws_secret_access_key"]
+        aws_secret_key=config["aws_secret_access_key"],
+        bucket=config["bucket_name"]
     )
-    cursor.execute(create_tables_query)
 
-    print(temp_load_query)
-    cursor.execute(temp_load_query)
+    # Load from staging to main tables, contains transaction to enable rollbacks
+    load_temp_main_query = prepare_query("load_temp_main")
+
+
+    cursor.execute(create_tables_query)
+    cursor.execute(load_csv_temp_query)
+    cursor.execute(load_temp_main_query)
+
     conn.commit()

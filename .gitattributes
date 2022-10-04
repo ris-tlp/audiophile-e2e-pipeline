@@ -1,1 +1,1 @@
-*.sql      text
+*.sql linguist-language=PLSQL

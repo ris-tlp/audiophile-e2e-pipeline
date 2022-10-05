@@ -1,6 +1,12 @@
 **/configuration.yaml
 **/*.env
 
+# dbt
+**target/
+**dbt_packages/
+**logs/
+
+
 # Airflow
 **/logs/*
 

@@ -11,7 +11,7 @@ DELETE FROM
 WHERE
     Headphone.model = Headphone_temp.model;
 
--- Move data from staging table to main tables
+-- Move data from temp table to main tables
 INSERT INTO
     InEarMonitor
 SELECT
@@ -28,7 +28,7 @@ FROM
 
 END TRANSACTION;
 
--- Drop staging tables
+-- Drop temp tables
 DROP TABLE InEarMonitor_temp;
 
 DROP TABLE Headphone_temp;

@@ -47,15 +47,18 @@ if __name__ == "__main__":
     create_tables_query = prepare_query("create_tables")
 
     # Load from staging to main tables, contains transaction to enable rollbacks
-    load_tables_query = prepare_query("load_csv_main").format(
+    load_temp_tables_query = prepare_query("load_temp_tables").format(
         bucket_name=config["bucket_name"],
         region=config["aws_region"],
         access_key=config["aws_access_key_id"],
         secret_key=config["aws_secret_access_key"],
     )
 
+    load_main_tables_query = prepare_query("load_main_tables")
+
     cursor.execute(create_tables_query)
-    cursor.execute(load_tables_query)
+    cursor.execute(load_temp_tables_query)
+    cursor.execute(load_main_tables_query)
 
     conn.commit()
     cursor.close()

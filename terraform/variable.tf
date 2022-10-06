@@ -10,8 +10,8 @@ variable "bucket_prefix" {
   default     = "audiophile-e2e-pipeline-"
 }
 
-variable "redshift_password" {
-  description = "Password for the database in the Redshift cluster"
+variable "rds_password" {
+  description = "Password for the database in the RDS cluster"
   type        = string
 }
 

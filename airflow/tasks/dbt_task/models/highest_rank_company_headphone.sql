@@ -15,14 +15,15 @@ final AS (
         company.company_name,
         AVG(mapped_ranks.rank_value) AS average_rating,
         COUNT(company.company_name) AS number_of_products
+
     FROM
-        inearmonitor,
+        headphone,
         mapped_ranks,
         company
     WHERE
-        inearmonitor.rank_grade = mapped_ranks.rank_grade
+        headphone.rank_grade = mapped_ranks.rank_grade
         AND company.company_name = {{ dbt.split_part(
-            string_text = 'InEarMonitor.model',
+            string_text = 'headphone.model',
             delimiter_text = "' '",
             part_number = 1
         ) }}

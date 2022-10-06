@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: highest_value_company
+  - name: highest_value_company_iem
     columns:
       - name: company_name
         tests:

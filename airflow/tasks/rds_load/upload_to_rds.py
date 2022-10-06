@@ -1,7 +1,5 @@
 import pathlib
-from tempfile import tempdir
 import psycopg2
-from psycopg2 import sql
 from dotenv import dotenv_values
 
 # Load config
@@ -13,11 +11,11 @@ config = dotenv_values(f"{configuration_path}/configuration.env")
 def create_conn():
     try:
         conn = psycopg2.connect(
-            host=config["redshift_host"].split(":")[0],
-            port=config["redshift_port"],
-            user=config["redshift_user"],
-            password=config["redshift_password"],
-            dbname=config["redshift_database"],
+            host=config["rds_instance_endpoint"].split(":")[0],
+            port=config["rds_port"],
+            user=config["rds_username"],
+            password=config["rds_password"],
+            dbname=config["rds_database_name"],
         )
 
         return conn
@@ -48,19 +46,17 @@ if __name__ == "__main__":
     # Creating tables if not already created
     create_tables_query = prepare_query("create_tables")
 
-    # Load from S3 csv to staging tables
-    load_csv_temp_query = prepare_query("load_csv_temp").format(
-        aws_access_id=config["aws_access_key_id"],
-        aws_secret_key=config["aws_secret_access_key"],
-        bucket=config["bucket_name"]
+    # Load from staging to main tables, contains transaction to enable rollbacks
+    load_tables_query = prepare_query("load_csv_main").format(
+        bucket_name=config["bucket_name"],
+        region=config["aws_region"],
+        access_key=config["aws_access_key_id"],
+        secret_key=config["aws_secret_access_key"],
     )
 
-    # Load from staging to main tables, contains transaction to enable rollbacks
-    load_temp_main_query = prepare_query("load_temp_main")
-
-
     cursor.execute(create_tables_query)
-    cursor.execute(load_csv_temp_query)
-    cursor.execute(load_temp_main_query)
+    cursor.execute(load_tables_query)
 
     conn.commit()
+    cursor.close()
+    conn.close()

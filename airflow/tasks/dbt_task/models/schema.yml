@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: highest_value_company
+    columns:
+      - name: company_name
+        tests:
+          - unique
+          - not_null
+      - name: highest_value
+        tests:
+          - unique
+          - not_null

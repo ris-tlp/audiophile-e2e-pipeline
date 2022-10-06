@@ -11,3 +11,41 @@ models:
         tests:
           - unique
           - not_null
+  - name: highest_value_company_headphone
+    columns:
+      - name: company_name
+        tests:
+          - unique
+          - not_null
+      - name: highest_value
+        tests:
+          - unique
+          - not_null
+  - name : highest_rank_company_iem
+    columns:
+      - name: company_name
+        tests:
+          - unique
+          - not_null
+      - name: average_rating
+        tests:
+          - unique
+          - not_null
+      - name: number_of_products
+        tests:
+          - unique
+          - not_null
+  - name : highest_rank_company_headphone
+    columns:
+      - name: company_name
+        tests:
+          - unique
+          - not_null
+      - name: average_rating
+        tests:
+          - unique
+          - not_null
+      - name: number_of_products
+        tests:
+          - unique
+          - not_null

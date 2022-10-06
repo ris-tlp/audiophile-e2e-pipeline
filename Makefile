@@ -5,11 +5,12 @@ help:
 	@echo "  redis-cli   Opens a Redis CLI"
 	@echo "  run         Run a airflow command"
 	@echo "  stop        Stops the docker containers"
-	@echo "  up          Runs the whole stack, served under http://localhost:8000/"
+	@echo "  up          Runs the whole stack, served under http://localhost:8080/"
 	@echo "  init        Initializes airflow services"
 	@echo "  base-build  Builds the base docker image for airflow"
 	@echo "  test  		 UI tests for scraper"
 	@echo "  config      Generate a configuration using terraform outputs"
+	@echo "  test-dbt    Run tests for dbt build"
 
 build:
 	docker-compose build
@@ -41,9 +42,14 @@ init:
 base-build:
 	docker build -t airflow-extended:latest -f Dockerfile .
 
-test:
+test-scraper:
 	pytest
+
+test-dbt:
+	dbt test
 
 config:
 	chmod +x generate_config.sh
 	./generate_config.sh
+
+

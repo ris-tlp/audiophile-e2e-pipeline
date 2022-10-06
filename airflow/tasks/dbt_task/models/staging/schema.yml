@@ -7,3 +7,13 @@ models:
         tests:
           - unique
           - not_null
+  - name: stg_maprankvalues
+    columns:
+      - name: rank_grade
+        tests:
+          - unique
+          - not_null
+      - name: rank_value
+        tests:
+          - unique
+          - not_null

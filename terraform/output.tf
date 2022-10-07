@@ -9,30 +9,30 @@ output "bucket_name" {
   value       = aws_s3_bucket.audiophile-bucket.id
 }
 
-# output "redshift_password" {
-#   description = "Password for the database in the Redshift cluster"
-#   value       = var.redshift_password
-# }
+output "redshift_password" {
+  description = "Password for the database in the Redshift cluster"
+  value       = var.redshift_password
+}
 
-# output "redshift_user" {
-#   description = "Username for the database in the Redshift cluster"
-#   value       = aws_redshift_cluster.audiophile_cluster.master_username
-# }
+output "redshift_user" {
+  description = "Username for the database in the Redshift cluster"
+  value       = aws_redshift_cluster.audiophile_cluster.master_username
+}
 
-# output "redshift_port" {
-#   description = "Port of the database in the Redshift cluster"
-#   value       = aws_redshift_cluster.audiophile_cluster.port
-# }
+output "redshift_port" {
+  description = "Port of the database in the Redshift cluster"
+  value       = aws_redshift_cluster.audiophile_cluster.port
+}
 
-# output "redshift_host" {
-#   description = "Host to connect to the Redshift cluster"
-#   value       = aws_redshift_cluster.audiophile_cluster.endpoint
-# }
+output "redshift_host" {
+  description = "Host to connect to the Redshift cluster"
+  value       = aws_redshift_cluster.audiophile_cluster.endpoint
+}
 
-# output "redshift_database" {
-#   description = "Database name in the Redshift cluster"
-#   value       = aws_redshift_cluster.audiophile_cluster.database_name
-# }
+output "redshift_database" {
+  description = "Database name in the Redshift cluster"
+  value       = aws_redshift_cluster.audiophile_cluster.database_name
+}
 
 output "rds_database_name" {
   description = "Database name in the RDS cluster"

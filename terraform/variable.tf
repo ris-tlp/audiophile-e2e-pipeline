@@ -15,6 +15,11 @@ variable "rds_password" {
   type        = string
 }
 
+variable "redshift_password" {
+  description = "Password for the database in the Redshift cluster"
+  type        = string
+}
+
 variable "versioning" {
   type    = string
   default = "Enabled"

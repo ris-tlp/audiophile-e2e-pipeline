@@ -36,14 +36,14 @@ with DAG(
         bash_command="python /opt/airflow/tasks/upload_to_s3.py silver",
     )
 
-    load_redshift = BashOperator(
-        task_id="load_data_into_redshift",
-        bash_command="python /opt/airflow/tasks/redshift_load/upload_to_redshift.py"
+    load_rds = BashOperator(
+        task_id="load_data_into_rds",
+        bash_command="python /opt/airflow/tasks/rds_load/upload_to_rds.py"
     )
 (
     scrape_audiophile_data
     >> upload_bronze_csv_s3
     >> validate_sanitize_bronze_data
     >> upload_silver_csv_s3
-    >> load_redshift
+    >> load_rds
 )

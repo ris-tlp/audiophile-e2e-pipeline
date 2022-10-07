@@ -1,7 +1,3 @@
-DROP TABLE Headphone;
-
-DROP TABLE InEarMonitor;
-
 CREATE TABLE IF NOT EXISTS Headphone (
     rank_grade varchar(5) NOT NULL,
     value_rating int NOT NULL,

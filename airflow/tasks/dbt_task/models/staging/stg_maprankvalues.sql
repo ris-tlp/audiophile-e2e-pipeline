@@ -1,55 +1,32 @@
+-- Each query iterates over the possible rank values for each audio device model and
+-- assigns a numerical value to each rank.
+
+{% set rank_grades = ["S+", "S", "S-", "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E+", "E", "E-", "F+", "F", "F-"] %}
+{% set value = 10 %}
+
 WITH iem_ranks as (
-    SELECT DISTINCT rank_grade,
-    CASE
-        WHEN rank_grade = 'S+' THEN 10
-        WHEN rank_grade = 'S' THEN 9.5
-        WHEN rank_grade = 'S-' THEN 9
-        WHEN rank_grade = 'A+' THEN 8.5
-        WHEN rank_grade = 'A' THEN 8
-        WHEN rank_grade = 'A-' THEN 7.5
-        WHEN rank_grade = 'B+' THEN 7
-        WHEN rank_grade = 'B' THEN 6.5
-        WHEN rank_grade = 'B-' THEN 6
-        WHEN rank_grade = 'C+' THEN 5.5
-        WHEN rank_grade = 'C' THEN 5
-        WHEN rank_grade = 'C-' THEN 4.5
-        WHEN rank_grade = 'D+' THEN 4
-        WHEN rank_grade = 'D' THEN 3.5
-        WHEN rank_grade = 'D-' THEN 3
-        WHEN rank_grade = 'E+' THEN 2.5
-        WHEN rank_grade = 'E' THEN 2
-        WHEN rank_grade = 'E-' THEN 1.5
-        WHEN rank_grade = 'F+' THEN 1
-        WHEN rank_grade = 'F' THEN 0.5
-        WHEN rank_grade = 'F-' THEN 0
-    END rank_value
-    FROM InEarMonitor
+    SELECT
+        DISTINCT rank_grade,
+        CASE
+        {% for grade in rank_grades %}
+         WHEN rank_grade = '{{ grade }}' THEN {{ value }}
+        {% set value = value - 0.5 %}
+        {% endfor %}
+        END rank_value
+    FROM
+        InEarMonitor
 ),
+
+{% set value = 10 %}
+
 headphone_ranks as (
     SELECT
         DISTINCT rank_grade,
         CASE
-            WHEN rank_grade = 'S+' THEN 10
-            WHEN rank_grade = 'S' THEN 9.5
-            WHEN rank_grade = 'S-' THEN 9
-            WHEN rank_grade = 'A+' THEN 8.5
-            WHEN rank_grade = 'A' THEN 8
-            WHEN rank_grade = 'A-' THEN 7.5
-            WHEN rank_grade = 'B+' THEN 7
-            WHEN rank_grade = 'B' THEN 6.5
-            WHEN rank_grade = 'B-' THEN 6
-            WHEN rank_grade = 'C+' THEN 5.5
-            WHEN rank_grade = 'C' THEN 5
-            WHEN rank_grade = 'C-' THEN 4.5
-            WHEN rank_grade = 'D+' THEN 4
-            WHEN rank_grade = 'D' THEN 3.5
-            WHEN rank_grade = 'D-' THEN 3
-            WHEN rank_grade = 'E+' THEN 2.5
-            WHEN rank_grade = 'E' THEN 2
-            WHEN rank_grade = 'E-' THEN 1.5
-            WHEN rank_grade = 'F+' THEN 1
-            WHEN rank_grade = 'F' THEN 0.5
-            WHEN rank_grade = 'F-' THEN 0
+        {% for grade in rank_grades %}
+         WHEN rank_grade = '{{ grade }}' THEN {{ value }}
+        {% set value = value - 0.5 %}
+        {% endfor %}
         END rank_value
     FROM
         Headphone

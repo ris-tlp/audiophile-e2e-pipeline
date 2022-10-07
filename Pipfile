@@ -18,6 +18,7 @@ python-dotenv = "*"
 
 [dev-packages]
 black = "*"
+sqlfluff = "*"
 
 [requires]
 python_version = "3.9"

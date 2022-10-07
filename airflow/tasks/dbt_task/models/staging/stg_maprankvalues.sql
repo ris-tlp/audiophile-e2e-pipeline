@@ -4,38 +4,44 @@
 {% set rank_grades = ["S+", "S", "S-", "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E+", "E", "E-", "F+", "F", "F-"] %}
 {% set value = 10 %}
 
-WITH iem_ranks as (
-    SELECT
-        DISTINCT rank_grade,
+WITH iem_ranks AS (
+    SELECT DISTINCT
+        rank_grade,
         CASE
-        {% for grade in rank_grades %}
-         WHEN rank_grade = '{{ grade }}' THEN {{ value }}
-        {% set value = value - 0.5 %}
-        {% endfor %}
-        END rank_value
+            {% for grade in rank_grades %}
+            WHEN rank_grade = '{{ grade }}' THEN {{ value }}
+            {% set value = value - 0.5 %}
+            {% endfor %}
+        END AS rank_value
     FROM
-        InEarMonitor
+        inearmonitor
 ),
 
 {% set value = 10 %}
 
-headphone_ranks as (
-    SELECT
-        DISTINCT rank_grade,
+headphone_ranks AS (
+    SELECT DISTINCT
+        rank_grade,
         CASE
-        {% for grade in rank_grades %}
-         WHEN rank_grade = '{{ grade }}' THEN {{ value }}
-        {% set value = value - 0.5 %}
-        {% endfor %}
-        END rank_value
+            {% for grade in rank_grades %}
+            WHEN rank_grade = '{{ grade }}' THEN {{ value }}
+            {% set value = value - 0.5 %}
+            {% endfor %}
+        END AS rank_value
     FROM
-        Headphone
+        headphone
 ),
 
 final AS (
-    SELECT rank_grade, rank_value FROM iem_ranks
+    SELECT
+        rank_grade,
+        rank_value
+    FROM iem_ranks
     UNION
-    SELECT rank_grade, rank_value FROM headphone_ranks
+    SELECT
+        rank_grade,
+        rank_value
+    FROM headphone_ranks
 )
 
 SELECT * FROM final

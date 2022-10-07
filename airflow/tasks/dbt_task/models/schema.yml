@@ -63,3 +63,31 @@ models:
         tests:
           - unique
           - not_null
+  - name: avg_audio_signature_headphone
+    columns:
+      - name: audio_signature
+        tests:
+          - unique
+          - not_null
+      - name: average_rating
+        tests:
+          - unique
+          - not_null
+      - name: number_of_products
+        tests:
+          - unique
+          - not_null
+  - name: avg_audio_signature_iem
+    columns:
+      - name: audio_signature
+        tests:
+          - unique
+          - not_null
+      - name: average_rating
+        tests:
+          - unique
+          - not_null
+      - name: number_of_products
+        tests:
+          - unique
+          - not_null

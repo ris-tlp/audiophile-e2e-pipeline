@@ -9,8 +9,8 @@ models:
           - not_null
       - name: highest_value
         tests:
-          - unique
           - not_null
+
   - name: highest_value_company_headphone
     columns:
       - name: company_name
@@ -19,9 +19,9 @@ models:
           - not_null
       - name: highest_value
         tests:
-          - unique
           - not_null
-  - name : highest_rank_company_iem
+
+  - name: highest_rank_company_iem
     columns:
       - name: company_name
         tests:
@@ -29,13 +29,12 @@ models:
           - not_null
       - name: average_rating
         tests:
-          - unique
           - not_null
       - name: number_of_products
         tests:
-          - unique
           - not_null
-  - name : highest_rank_company_headphone
+
+  - name: highest_rank_company_headphone
     columns:
       - name: company_name
         tests:
@@ -43,12 +42,11 @@ models:
           - not_null
       - name: average_rating
         tests:
-          - unique
           - not_null
       - name: number_of_products
         tests:
-          - unique
           - not_null
+
   - name: avg_driver_rating_headphone
     columns:
       - name: driver_type
@@ -57,12 +55,11 @@ models:
           - not_null
       - name: average_rating
         tests:
-          - unique
           - not_null
       - name: number_of_products
         tests:
-          - unique
           - not_null
+
   - name: avg_audio_signature_headphone
     columns:
       - name: audio_signature
@@ -71,12 +68,11 @@ models:
           - not_null
       - name: average_rating
         tests:
-          - unique
           - not_null
       - name: number_of_products
         tests:
-          - unique
           - not_null
+
   - name: avg_audio_signature_iem
     columns:
       - name: audio_signature
@@ -85,9 +81,7 @@ models:
           - not_null
       - name: average_rating
         tests:
-          - unique
           - not_null
       - name: number_of_products
         tests:
-          - unique
           - not_null

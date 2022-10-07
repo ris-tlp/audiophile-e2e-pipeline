@@ -49,3 +49,17 @@ models:
         tests:
           - unique
           - not_null
+  - name: avg_driver_rating_headphone
+    columns:
+      - name: driver_type
+        tests:
+          - unique
+          - not_null
+      - name: average_rating
+        tests:
+          - unique
+          - not_null
+      - name: number_of_products
+        tests:
+          - unique
+          - not_null

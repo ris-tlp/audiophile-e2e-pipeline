@@ -8,7 +8,7 @@ final AS (
     SELECT
         headphone.driver_type,
         AVG(mapped_ranks.rank_value) AS average_rating,
-        COUNT(headphone.driver_type) AS number_of_devices
+        COUNT(headphone.driver_type) AS number_of_products
     FROM
         headphone,
         mapped_ranks

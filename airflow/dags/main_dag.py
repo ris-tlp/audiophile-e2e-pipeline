@@ -47,9 +47,15 @@ with DAG(
         bash_command="python /opt/airflow/tasks/rds_load/upload_to_rds.py",
     )
 
+    generate_dbt_profile = BashOperator(
+        task_id="generate_dbt_profile",
+        bash_command="python /opt/airflow/tasks/dbt_transform/generate_dbt_profile.py"
+    )
+
     dbt_transform = DbtRunOperator(
         task_id="run_dbt_transformations",
-        dir="/opt/airflow/tasks/dbt_transform/"
+        dir="/opt/airflow/tasks/dbt_transform/",
+        profiles_dir="/opt/airflow/tasks/dbt_transform"
     )
 
 
@@ -60,5 +66,6 @@ with DAG(
     >> upload_silver_csv_s3
     >> redshift_load
     >> rds_load
+    >> generate_dbt_profile
     >> dbt_transform
 )

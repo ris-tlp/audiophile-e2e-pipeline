@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.bash_operator import BashOperator
-from airflow_dbt.operators.dbt_operator import DbtRunOperator
+from airflow_dbt.operators.dbt_operator import DbtRunOperator, DbtTestOperator
 
 
 schedule_interval = "@daily"
@@ -58,6 +58,12 @@ with DAG(
         profiles_dir="/opt/airflow/tasks/dbt_transform"
     )
 
+    dbt_test = DbtTestOperator(
+        task_id="run_dbt_tests",
+        dir="/opt/airflow/tasks/dbt_transform/",
+        profiles_dir="/opt/airflow/tasks/dbt_transform"
+    )
+
 
 (
     scrape_audiophile_data
@@ -68,4 +74,5 @@ with DAG(
     >> rds_load
     >> generate_dbt_profile
     >> dbt_transform
+    >> dbt_test
 )

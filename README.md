@@ -6,7 +6,7 @@ Pipeline that extracts data from [Crinacle's](https://crinacle.com/) Headphone a
 
 ![Architecture](https://github.com/ris-tlp/audiophile-e2e-pipeline/blob/main/images/architecture.jpeg)
 
-Infrastructure provisioning through [Terraform](https://www.terraform.io/), containerized through [Docker](https://www.docker.com/) and orchestrated through [Airflow](https://airflow.apache.org/).
+Infrastructure provisioning through [Terraform](https://www.terraform.io/), containerized through [Docker](https://www.docker.com/) and orchestrated through [Airflow](https://airflow.apache.org/). Created dashboard through [Metabase](https://www.metabase.com/).
 
 DAG Tasks:
 
@@ -16,8 +16,7 @@ DAG Tasks:
 4. Load silver data to [AWS S3](https://aws.amazon.com/s3/).
 5. Load silver data to [AWS Redshift](https://aws.amazon.com/redshift/).
 6. Load silver data to [AWS RDS](https://aws.amazon.com/rds/) for future projects.
-7. Transform and test data through [dbt](https://docs.getdbt.com/) in the warehouse.
-8. Create dashboard through [Metabase](https://www.metabase.com/).
+7. and 8. Transform and test data through [dbt](https://docs.getdbt.com/) in the warehouse.
 
 ## Dashboard
 

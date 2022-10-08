@@ -54,6 +54,6 @@ config:
 
 infra:
 	terraform -chdir=terraform/ init -input=false
-	terraform -chdir=terraform/ apply -input=false -auto-approve
+	terraform -chdir=terraform/ apply
 
 

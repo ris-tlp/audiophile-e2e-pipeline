@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.bash_operator import BashOperator
+from airflow_dbt.operators.dbt_operator import DbtRunOperator
 
 
 schedule_interval = "@daily"
@@ -18,7 +19,7 @@ with DAG(
 
     scrape_audiophile_data = BashOperator(
         task_id="scrape_audiophile_data",
-        bash_command="python /opt/airflow/tasks/scraper/scraper.py",
+        bash_command="python /opt/airflow/tasks/scraper_extract/scraper.py",
     )
 
     upload_bronze_csv_s3 = BashOperator(
@@ -36,20 +37,28 @@ with DAG(
         bash_command="python /opt/airflow/tasks/upload_to_s3.py silver",
     )
 
-    load_redshift = BashOperator(
+    redshift_load = BashOperator(
         task_id="load_data_into_redshift",
         bash_command="python /opt/airflow/tasks/redshift_load/upload_to_redshift.py",
     )
 
-    load_rds = BashOperator(
+    rds_load = BashOperator(
         task_id="load_data_into_rds",
         bash_command="python /opt/airflow/tasks/rds_load/upload_to_rds.py",
     )
+
+    dbt_transform = DbtRunOperator(
+        task_id="run_dbt_transformations",
+        dir="/opt/airflow/tasks/dbt_transform/"
+    )
+
+
 (
     scrape_audiophile_data
     >> upload_bronze_csv_s3
     >> validate_sanitize_bronze_data
     >> upload_silver_csv_s3
-    >> load_redshift
-    >> load_rds
+    >> redshift_load
+    >> rds_load
+    >> dbt_transform
 )

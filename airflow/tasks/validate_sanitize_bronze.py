@@ -4,7 +4,7 @@ from typing import List
 from csv import DictReader
 from pydantic import ValidationError
 from utilities import convert_to_csv
-from scraper.models import InEarMonitor, Headphone
+from scraper_extract.models import InEarMonitor, Headphone
 
 
 def read_csv_as_dicts(filename: str) -> List[dict]:

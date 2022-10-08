@@ -52,4 +52,8 @@ config:
 	chmod +x generate_config.sh
 	./generate_config.sh
 
+infra:
+	terraform -chdir=terraform/ init -input=false
+	terraform -chdir=terraform/ apply -input=false -auto-approve
+
 

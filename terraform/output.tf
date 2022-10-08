@@ -51,8 +51,7 @@ output "rds_username" {
 
 output "rds_password" {
   description = "Password for the RDS cluster"
-  value       = aws_db_instance.rds_instance.password
-  sensitive   = true
+  value       = var.rds_password
 }
 
 output "rds_port" {

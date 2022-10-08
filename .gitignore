@@ -1,6 +1,7 @@
 **/configuration.yaml
 **/*.env
 profiles.yml
+.user.yml
 
 # dbt
 **target/

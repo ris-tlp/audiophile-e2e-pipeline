@@ -11,6 +11,7 @@ help:
 	@echo "  test  		 UI tests for scraper"
 	@echo "  config      Generate a configuration using terraform outputs"
 	@echo "  test-dbt    Run tests for dbt build"
+	@echo "  infra       Create AWS infrastructure"
 
 build:
 	docker-compose build
